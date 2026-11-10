@@ -1,0 +1,68 @@
+        {/* Search Trainee Field */}
+        <div className="mb-4 mt-4">
+          <div className="relative" ref={wrapperRef}>
+            <input
+              type="text"
+              placeholder="Search trainees..."
+              value={traineeQuery}
+              onChange={(e) => {
+                setTraineeQuery(e.target.value);
+                setShowDropdown(true);
+                setHighlightedIndex(0);
+              }}
+              onFocus={() => setShowDropdown(true)}
+              onKeyDown={handleKeyDown}
+              className="w-full border border-gray-300 rounded-md px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-[#98CBFF]"
+            />
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+              <DownCaretInput />
+            </div>
+
+            {/* Dropdown */}
+            {showDropdown && filteredTrainees.length > 0 && (
+              <div
+                className={cn(
+                  "absolute top-full left-0 mt-2",
+                  "bg-white border-5 border-white rounded-md shadow-xl z-10 overflow-y-auto",
+                  "flex flex-col w-full"
+                )}
+                style={{ 
+                  boxShadow: '0px 0px 36px rgba(25, 37, 50, 0.2)' 
+                }}
+              >
+                {filteredTrainees.map((trainee, i) => (
+                  <div
+                    key={trainee.id}
+                    className={`text-left px-2 py-1.5 cursor-pointer ${
+                      i === highlightedIndex ? 'bg-gray-200' : 'bg-gray-50 hover:bg-gray-100'
+                    }`}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      setSelectedTrainee(trainee);
+                      setTraineeQuery(trainee.name);
+                      setShowDropdown(false);
+                    }}
+                  >
+                    <span>{trainee.name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Search Program Field */}
+        <div className="mb-4">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search programs..."
+              value={programQuery}
+              onChange={(e) => setProgramQuery(e.target.value)}
+              className="w-full border border-gray-300 rounded-md px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-[#98CBFF]"
+            />
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+              <DownCaretInput />
+            </div>
+          </div>
+        </div>
